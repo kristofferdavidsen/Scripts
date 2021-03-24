@@ -1,10 +1,12 @@
 property playListName : "Music"
-set outputFile to ((path to desktop as text) & "playlist.txt")
-set aText to ""
-set {aNameMaximum, artistMaximum} to {0, 0}
 
 set myInput to display dialog "Type the name of the playlist:" default answer "Mest spilt"
 set playListName to text returned of myInput
+
+
+set outputFile to ((path to me as text) & playListName & ".txt")
+set aText to ""
+set {aNameMaximum, artistMaximum} to {0, 0}
 
 tell application "Music"
 	set theTracks to every track in playlist playListName
@@ -34,7 +36,10 @@ tell application "Music"
 		-- duration
 		set aDuration to (get duration of aTrack) as integer
 		set aDuration to my convertTime(aDuration)
-		set aText to aText & aDuration & return
+		set aText to aText & aDuration & " | "
+		-- number of plays
+		set aPlays to (get played count of aTrack as string)
+		set aText to aText & aPlays & return
 	end repeat
 end tell
 
